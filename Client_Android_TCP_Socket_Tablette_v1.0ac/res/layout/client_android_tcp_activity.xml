@@ -1,0 +1,527 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@color/holo_green_dark"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bright_foreground_holo_dark"
+    android:orientation="vertical"
+    tools:context=".Client_Android_TCP_Activity" >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="66dp"
+        android:layout_weight="0.27"
+        android:orientation="vertical"
+        android:scrollbars="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <DigitalClock
+                android:id="@+id/digitalClock1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.32"
+                android:background="@color/blanc"
+                android:text="DigitalClock"
+                android:textSize="10dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/blanc"
+                android:text="10/06/1970"
+                android:textColor="@color/noir"
+                android:textSize="8dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textViewClient"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/hint_foreground_holo_dark"
+            android:text="Etat du Client Android"
+            android:textColor="@color/link_text_holo_light"
+            android:textSize="10dp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/editTextClient"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/noir"
+            android:ems="10"
+            android:enabled="true"
+            android:inputType="textMultiLine"
+            android:scrollbarAlwaysDrawVerticalTrack="true"
+            android:scrollbarStyle="insideOverlay"
+            android:scrollbars="vertical"
+            android:textSize="12dp" >
+
+            <requestFocus />
+        </EditText>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/textViewServeur"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/hint_foreground_holo_dark"
+        android:contentDescription="@android:color/holo_blue_light"
+        android:text="Réponse Serveur Wifi/Ethernet"
+        android:textColor="@color/link_text_holo_light"
+        android:textSize="10dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="104dp"
+        android:layout_weight="0.02"
+        android:background="@color/noir" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:scrollbars="vertical" >
+
+            <EditText
+                android:id="@+id/editTextServeur"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_weight="0.52"
+                android:background="@color/blanc"
+                android:ems="10"
+                android:enabled="true"
+                android:inputType="textMultiLine"
+                android:scrollbarAlwaysDrawVerticalTrack="true"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="vertical"
+                android:textColor="@color/noir"
+                android:textSize="12dp" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/bleu_electrique"
+                android:textSize="2dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.35" >
+
+                <ToggleButton
+                    android:id="@+id/toggleRechercherServeur"
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:text="Se connecter au Serveur TCP"
+                    android:textColor="@color/blanc"
+                    android:textOff="Se connecter au Serveur TCP"
+                    android:textOn="Se déconnecter du Serveur TCP"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.24" >
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textView8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="IP Serveur"
+                    android:textColor="@color/blanc"
+                    android:textColorHint="@color/blanc"
+                    android:textSize="12dp" />
+
+                <EditText
+                    android:id="@+id/editTextIPServeur"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:text="192.168.1.129"
+                    android:textColor="@color/bleu_electrique"
+                    android:textColorHint="@color/blanc"
+                    android:textSize="12dp" />
+
+                <Button
+                    android:id="@+id/buttonQuitter"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.34"
+                    android:text="Quitter"
+                    android:textColor="@color/blanc"
+                    android:textSize="10dp" />
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/noir"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/rouge"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gestion de l&apos;heure"
+                android:textColor="@color/noir"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/noir" >
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Heure :"
+                android:textColor="@color/blanc"
+                android:textColorHint="@color/grisclair"
+                android:textSize="8dp" />
+
+            <EditText
+                android:id="@+id/eTxtHeure"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.58"
+                android:ems="10"
+                android:gravity="center_vertical|center"
+                android:textColor="@color/grisclair"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="29dp"
+                android:layout_weight="0.21" >
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:text="Date :"
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+
+            <EditText
+                android:id="@+id/eTxtDate"
+                android:layout_width="63dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.35"
+                android:ems="10"
+                android:gravity="center_vertical|center_horizontal"
+                android:inputType="date"
+                android:textColor="@color/grisclair"
+                android:textSize="12dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="31dp"
+                android:layout_weight="0.68" >
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSetDate"
+                android:layout_width="wrap_content"
+                android:layout_height="34dp"
+                android:enabled="false"
+                android:minWidth="64dp"
+                android:text="Set Date"
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/noir"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="34dp" >
+
+                <CheckBox
+                    android:id="@+id/chkAffHeureNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="0.10"
+                    android:checked="true"
+                    android:text="Heure num"
+                    android:textColor="@color/blanc"
+                    android:textSize="8dp" />
+
+                <CheckBox
+                    android:id="@+id/chkAffHeureAna"
+                    android:layout_width="wrap_content"
+                    android:layout_height="20dp"
+                    android:layout_weight="0.10"
+                    android:checked="true"
+                    android:text="Heure ana"
+                    android:textColor="@color/blanc"
+                    android:textSize="8dp" />
+
+                <CheckBox
+                    android:id="@+id/chkAffDateNum"
+                    android:layout_width="wrap_content"
+                    android:layout_height="17dp"
+                    android:layout_weight="0.35"
+                    android:checked="true"
+                    android:text="Date num"
+                    android:textColor="@color/blanc"
+                    android:textSize="8dp" />
+
+                <Button
+                    android:id="@+id/buttonMAJHeure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="34dp"
+                    android:enabled="false"
+                    android:minWidth="64dp"
+                    android:text="MAJ-Heure"
+                    android:textColor="@color/blanc"
+                    android:textSize="8dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="198dp"
+        android:layout_weight="0.04"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/rouge"
+            android:gravity="bottom" >
+
+            <TextView
+                android:id="@+id/txtTitreVisuSec"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.00"
+                android:background="@color/rouge"
+                android:text="Mode visu seconde:"
+                android:textColor="@color/noir"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/txtModeSec"
+                android:layout_width="61dp"
+                android:layout_height="match_parent"
+                android:layout_weight="0.02"
+                android:background="@color/rouge"
+                android:gravity="right"
+                android:text="1point rouge"
+                android:textColor="@color/noir"
+                android:textSize="10dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.03" >
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/noir"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/TextView03"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sélection mode : "
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+
+            <SeekBar
+                android:id="@+id/skbModeSeconde"
+                android:layout_width="113dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.08"
+                android:background="@color/noir"
+                android:max="120"
+                android:maxHeight="13dp"
+                android:minHeight="13dp" />
+
+            <Button
+                android:id="@+id/bpMajModeSec"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:text="Mise à jour"
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/rouge" >
+
+            <TextView
+                android:id="@+id/txtTitreGesAnn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/rouge"
+                android:text="Mode gestion anneau haut:"
+                android:textColor="@color/noir"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/txtModeAnneau"
+                android:layout_width="61dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.08"
+                android:background="@color/rouge"
+                android:gravity="right"
+                android:text="Motif dégradé"
+                android:textColor="@color/noir"
+                android:textSize="10dp" />
+
+            <TextView
+                android:id="@+id/txtVitAnneau"
+                android:layout_width="29dp"
+                android:layout_height="wrap_content"
+                android:background="@color/rouge"
+                android:gravity="right"
+                android:text="x20"
+                android:textColor="@color/noir"
+                android:textSize="10dp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="0.12" >
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/noir"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/TextView36"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/noir"
+                android:text="Sélection mode : "
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+
+            <SeekBar
+                android:id="@+id/skbModeAnneau"
+                android:layout_width="163dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.37"
+                android:max="100" />
+
+            <Button
+                android:id="@+id/bpMajModeAnneau"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:enabled="false"
+                android:text="Mise à jour"
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/noir"
+            android:gravity="center_vertical"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/TextView19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sélection vitesse : "
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+
+            <SeekBar
+                android:id="@+id/skbVitesseAnneau"
+                android:layout_width="87dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.09"
+                android:max="100" />
+
+            <CheckBox
+                android:id="@+id/chkRougeAnneau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.01"
+                android:checked="true"
+                android:text="Vert"
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+
+            <CheckBox
+                android:id="@+id/chkVertAnneau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rouge"
+                android:textColor="@color/blanc"
+                android:textSize="8dp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/logview"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/bleu_electrique"
+            android:bufferType="editable"
+            android:textColor="@color/grisclair"
+            android:textSize="10dp" />
+
+        <ToggleButton
+            android:id="@+id/toggleButtonArretServeur"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton"
+            android:textColor="@color/holo_red_dark"
+            android:textColorHint="@color/holo_orange_dark"
+            android:textColorLink="@color/holo_red_dark"
+            android:textOff="Arrêter le serveur distant"
+            android:textOn="Arrêt du serveur en cours..."
+            android:textSize="12dp" />
+
+    </LinearLayout>
+
+</LinearLayout>
