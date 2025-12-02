@@ -1,0 +1,7 @@
+public Socket socket;
+public PrintWriter out;
+
+
+out = new PrintWriter(this.socket.getOutputStream());
+out.println(message+"/"+ getCrc(message));
+out.flush();

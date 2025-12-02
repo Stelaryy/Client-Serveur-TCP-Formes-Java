@@ -56,13 +56,13 @@ public class Client_Java_TCP_Socket
 	*/
 			try 
 			{	// Creation du socket de communication avec le serveur
-				SocketClient = ....................................	//# Creation d un socket de communication entre le Serveur et le Client avec l adresse et le port du serveur
+				SocketClient = new Socket(strAdresseServeur, intPort);
 				try 
 				{	// Creation du flux de communication en sortie Client -> Serveur
-					FluxSortieEthernet = ....................................	//# Creation du flux de sortie Client -> Serveur
+					FluxSortieEthernet = SocketClient.getOutputStream();
 					try 
 					{	// Creation du flux de communication en entree Client <- Serveur
-						FluxEntreeEthernet = ....................................	//# Creation du flux d entree Client <- Serveur
+						FluxEntreeEthernet = SocketClient.getInputStream();
 						// Attente de l accuse de reception de connexion du serveur
 						if(AttendreAccuseReception("Connexion") == true)
 							System.out.println("Serveur connecte");						
@@ -82,7 +82,7 @@ public class Client_Java_TCP_Socket
 							try 
 							{
 					    		// Envoi des donnees ou commandes vers le Serveur
-								..................................	//# Ecriture des donnees stockees dans RequeteEnvoyee pour le Serveur sur le flux de sortie
+								FluxSortieEthernet.write(RequeteEnvoyee.getBytes());
 								FluxSortieEthernet.flush();
 								// Attente de l accuse de reception du serveur
 								if(AttendreAccuseReception("OK") == false)
@@ -150,7 +150,7 @@ public class Client_Java_TCP_Socket
 		{
 			try 
 			{
-				intNbreCarLusEthernet = ....................................	//# Lecture des donnees provenant du serveur stockage dans byteTabAccuseReception
+				intNbreCarLusEthernet = FluxEntreeEthernet.read(byteTabAccuseReception);
 				strAccuseReception=ConvTrameCar(byteTabAccuseReception,intNbreCarLusEthernet);
 			} 
 			catch (IOException e) 

@@ -1,0 +1,5 @@
+BufferedReader in;
+
+in = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
+
+in.readLine()

@@ -63,10 +63,10 @@ public class Serveur_Java_TCP_Socket
 	    	Serveur = null;
 	    	Client = null;
 	    	
-
+	    	//Creation d un socket de communication TCP en écoute sur le port 1234
 			try 
 			{ 
-				Serveur = ................................... //# Creation d un socket de communication TCP en écoute sur le port 1234   
+				Serveur = new ServerSocket(1234);    
 				Temporisation(100);
 			}
 			catch(IOException e) 
@@ -80,13 +80,13 @@ public class Serveur_Java_TCP_Socket
 			System.out.println("#   	Port d ecoute : [ " + intPort+" ]                                                                 #");
 			System.out.println("\nServeur en attente de connexion Client...");
 			
-
-			Client = ............................. 			//# Acceptation d une connexion Client et creation d'un socket client
+			//Acceptation d une connexion Client
+			Client = Serveur.accept();  
 			ClientConnect = true;
 			
 			System.out.println("Client connecté au serveur".toString());    	
 		    // Creation d un flux de sortie avec le Client (emission de donnees serveur->Client)
-			FluxSortieEthernet = ............................ // Creation d un flux de sortie avec le Client sur le socket client(emission de donnees serveur->Client)
+			FluxSortieEthernet = Client.getOutputStream();
 			
 			// Envoi ou non d un accuse de reception au Client pour lui signifier qu il est connecte au serveur	
 			if(EnvoyerAccuseReception("Connexion") == false)
@@ -96,7 +96,7 @@ public class Serveur_Java_TCP_Socket
 			}
 			 
 			// Creation d un flux d entree avec le Client pour recevoir ses commandes (reception Serveur <- Client)
-			FluxEntreeEthernet = ....................... //# Creation d un flux d entree avec le Client sur le socket client pour recevoir ses commandes (reception Serveur <- Client)
+			FluxEntreeEthernet = Client.getInputStream();
 			Temporisation(100);
 			
 			// Boucle tant que le client est connecte et que nous n avons pas recu de demande de fermeture du serveur
@@ -106,7 +106,7 @@ public class Serveur_Java_TCP_Socket
 				{	
 					System.out.println("\nAttente de la Requete Client...");
 					// Lecture des trames venant du Client reception, on recupere le nombre de caracteres lus et la trame est un tableau de bytes
-					intNbreCarLusEthernet = ....................... //# Lecture de la trame recue sur le socket client
+					intNbreCarLusEthernet = FluxEntreeEthernet.read(byteTabRequeteRecue);
 					
 					// Envoi ou non d un accuse de reception au Client pour lui signifier que la commande a bien ete recue
 					if(EnvoyerAccuseReception("OK") == false)
@@ -302,7 +302,7 @@ public class Serveur_Java_TCP_Socket
 	    	{
 	    		// Envoi de l accuse de reception vers le Client
 	    		System.out.println("Envoi de l accuse de reception au Client");
-				................................... //# Ecrire (envoyer le tableau de bytes strAccuseReception) les accuses de reception sur le flux de sortie
+				FluxSortieEthernet.write(strAccuseReception.getBytes());
 				FluxSortieEthernet.flush();
 			} 
 	    	catch (IOException e) 
