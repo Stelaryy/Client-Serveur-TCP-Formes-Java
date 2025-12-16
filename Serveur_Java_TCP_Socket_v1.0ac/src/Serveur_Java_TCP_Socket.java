@@ -3,9 +3,11 @@ import java.io.*;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.reflect.*;
+import javax.swing.*;
 
 /** Exemple de serveur TCP en java en ecoute sur le port 1234, 
- * Attend une connexion TCP et renvoie un accusé de réception
+ * Attend une connexion TCP et renvoie un accusï¿½ de rï¿½ception
  *
  * Auteur : Wilfrid Grassi
  * date : 25/11/2017
@@ -22,7 +24,12 @@ public class Serveur_Java_TCP_Socket
 	
 	private static boolean ServeurUp = true; 				//Propriete d etat de fonctionnement du serveur
 	private static boolean ClientConnect = false;			//Propriete d etat de Client connecte
-	private static char charChoixAccuses = 'N';
+	private static char charChoixAccuses = 'O';
+
+	// UI minimale pour afficher trames recues et formes creees
+	private static JFrame uiFrame;
+	private static DefaultListModel<String> formesModel = new DefaultListModel<>();
+	private static JTextArea logArea = new JTextArea();
 		
 	public static void main(String[] args) throws IOException,  java.lang.InterruptedException
 	{ 
@@ -30,6 +37,9 @@ public class Serveur_Java_TCP_Socket
     	String strRequeteRecueConvertie = null;
     	String strRequeteRecueConvertieHex = null;
     	byte byteTabRequeteRecue [] = new byte[1500];
+
+		// Lance une petite fenetre pour suivre les trames et les formes
+		InitUI();
     	
 		System.out.println("--------------------------------------------------------------------------------------------------");
 		System.out.println("#                                      Serveur TEST TCP                                          #");
@@ -38,19 +48,10 @@ public class Serveur_Java_TCP_Socket
 		System.out.println("# Date : 25/11/2017                                                                              #");
 		System.out.println("# Version : 1.0                                                                                  #");
 		System.out.println("--------------------------------------------------------------------------------------------------\n");
+		LogTrame("Serveur demarre, en attente de connexion...");
 		
-		// Affichage du choix reception ou non des accuses de reception du Client
-		System.out.println("Activer les accuses de receptions des requetes TCP du Client (bidirectionnels)  O/N :");
-		do
-		{
-			charChoixAccuses = (char) System.in.read();
-		}
-		while( charChoixAccuses  != 'O' && charChoixAccuses != 'o' && charChoixAccuses != 'N' && charChoixAccuses !='n');
-		
-		if( charChoixAccuses == 'O' || charChoixAccuses == 'o' ) 
-			System.out.println("Accuses de reception active.");
-		else
-			System.out.println("Accuses de reception desactive.");
+		// Accuses de reception forces actifs (evite une saisie console bloquante)
+		System.out.println("Accuses de reception actives (mode automatique).");
     	
 		// Boucle principale du serveur
 		while( ServeurUp ) 
@@ -63,7 +64,7 @@ public class Serveur_Java_TCP_Socket
 	    	Serveur = null;
 	    	Client = null;
 	    	
-	    	//Creation d un socket de communication TCP en écoute sur le port 1234
+	    	//Creation d un socket de communication TCP en ï¿½coute sur le port 1234
 			try 
 			{ 
 				Serveur = new ServerSocket(1234);    
@@ -75,7 +76,7 @@ public class Serveur_Java_TCP_Socket
 				System.exit(0);
 			}
 			
-			// Affichage des différentes interfaces TCP avec la méthode GetHostNameAndIP()
+			// Affichage des diffï¿½rentes interfaces TCP avec la mï¿½thode GetHostNameAndIP()
 			GetHostNameAndIP();
 			System.out.println("#   	Port d ecoute : [ " + intPort+" ]                                                                 #");
 			System.out.println("\nServeur en attente de connexion Client...");
@@ -84,7 +85,7 @@ public class Serveur_Java_TCP_Socket
 			Client = Serveur.accept();  
 			ClientConnect = true;
 			
-			System.out.println("Client connecté au serveur".toString());    	
+			System.out.println("Client connectï¿½ au serveur".toString());    	
 		    // Creation d un flux de sortie avec le Client (emission de donnees serveur->Client)
 			FluxSortieEthernet = Client.getOutputStream();
 			
@@ -120,6 +121,7 @@ public class Serveur_Java_TCP_Socket
 					{
 						//On convertit la trame recue en chaine de caracteres pour l afficher avec des carateres imprimables
 						strRequeteRecueConvertie = ConvTrameCar(byteTabRequeteRecue,intNbreCarLusEthernet); 
+						LogTrame(strRequeteRecueConvertie);
 
 				    	//-----------------------------------------------------------------------------------------------------------------
 				    	//  Ici sont traitees les differentes requetes de commandes envoyees par le Client
@@ -159,7 +161,10 @@ public class Serveur_Java_TCP_Socket
 								System.out.println(ConvTrameCar(byteTabRequeteRecue,intNbreCarLusEthernet)); 
 								System.out.println(strRequeteRecueConvertieHex);
 								System.out.println("_________________________________________________________________________________________________________________________________________________________________\n");
-								System.out.println("^ La Trame de Donnees  ci-dessus a ete recue ^\n");
+								if(!TraiterTrameForme(strRequeteRecueConvertie))
+								{
+									System.out.println("^ La Trame de Donnees ci-dessus a ete recue (aucune forme interpretee) ^\n");
+								}
 							}
 						}
 					}
@@ -176,7 +181,7 @@ public class Serveur_Java_TCP_Socket
 	//------------------------------------------------------------------------------------------------------
 	
 	//########################################################################// 
-	//		Méthode de fermeture des sockets TCP avec gestion des erreurs 	  //
+	//		Mï¿½thode de fermeture des sockets TCP avec gestion des erreurs 	  //
 	// 																	      // 																
 	//########################################################################//
 	public static void CleanSockets()
@@ -257,7 +262,7 @@ public class Serveur_Java_TCP_Socket
 	    }
 	    catch (UnknownHostException e) 
 	    {
-	    	System.out.println("Impossible de faire correspondre un nom DNS à l adresse IP Locale !!! \nFermeture du serveur");
+	    	System.out.println("Impossible de faire correspondre un nom DNS ï¿½ l adresse IP Locale !!! \nFermeture du serveur");
 	    	System.exit(0);
 	    }
 
@@ -318,7 +323,7 @@ public class Serveur_Java_TCP_Socket
 	//############################################################################################################//    
 	// Methode pour afficher le contenu	de la trame	en caracteres imprimables et au format hexa et decimal		  // 
 	//						 									                                                  //
-	// les bytes non imprimables sont affichés uniquement en hexa(0x..) et decimal()				              //										
+	// les bytes non imprimables sont affichï¿½s uniquement en hexa(0x..) et decimal()				              //										
 	//############################################################################################################// 
 	public static String ConvTrameCarHex(byte[] chainedeBytes, int taille) throws UnsupportedEncodingException
 	{
@@ -352,7 +357,7 @@ public class Serveur_Java_TCP_Socket
 	//##############################################################################################//    
 	// Methode pour afficher le contenu	de la trame	avec des caracters imprimables				    // 
 	//							 									                               	//
-	// les bytes sont convertis pour être affichés les caracteres non imprimables sont remplaces    //
+	// les bytes sont convertis pour ï¿½tre affichï¿½s les caracteres non imprimables sont remplaces    //
 	// par un '.'													                                //	
 	// Les reours chariot 0x0D 0x0A sont transformes en '\n'                                        //
 	//##############################################################################################// 
@@ -405,6 +410,207 @@ public class Serveur_Java_TCP_Socket
 	}
 	//------------------------------------------------------------------------------------------------------
 
+	//------------------------------------------------------------------------------------------------------
+	// Tentative d'interpretation des trames de forme (format simple "TYPE=...;A=...;B=...\n")
+	// Retourne true si une forme a ete creee ou supprimee, false sinon
+	public static boolean TraiterTrameForme(String trame)
+	{
+		if(trame == null)
+			return false;
+
+		String contenu = trame.trim();
+		if(contenu.isEmpty())
+			return false;
+
+		Map<String, String> map = new HashMap<String, String>();
+		try
+		{
+			String[] blocs = contenu.split(";");
+			for(String bloc : blocs)
+			{
+				if(!bloc.contains("="))
+					continue;
+				String[] kv = bloc.split("=",2);
+				map.put(kv[0].trim().toUpperCase(), kv[1].trim());
+			}
+		}
+		catch(Exception ex)
+		{
+			return false;
+		}
+
+		if(!map.containsKey("TYPE"))
+			return false;
+
+		String type = map.get("TYPE").toUpperCase();
+		try
+		{
+			switch(type)
+			{
+				case "RECTANGLE":
+					creerRectangle(map);
+					return true;
+				case "CARRE":
+					creerCarre(map);
+					return true;
+				case "ELLIPSE":
+					creerEllipse(map);
+					return true;
+				case "CERCLE":
+					creerCercle(map);
+					return true;
+				case "LOSANGE":
+					creerLosange();
+					return true;
+				case "TRIANGLE":
+					creerTriangle(map);
+					return true;
+				case "HEXAGONE":
+					creerHexagone();
+					return true;
+				case "DELETE":
+					return supprimerForme(map);
+				default:
+					return false;
+			}
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Erreur lors du traitement de la forme : " + ex.getMessage());
+			return false;
+		}
+	}
+
+	private static double lireDouble(Map<String,String> map, String cle, double defaut)
+	{
+		if(!map.containsKey(cle)) return defaut;
+		try { return Double.parseDouble(map.get(cle)); } catch(Exception ex) { return defaut; }
+	}
+
+	private static Object instancier(String className, Class<?>[] sig, Object[] args) throws Exception
+	{
+		Class<?> clazz = Class.forName(className);
+		Constructor<?> ctor = clazz.getConstructor(sig);
+		return ctor.newInstance(args);
+	}
+
+	private static void afficherCreation(Object f)
+	{
+		try
+		{
+			Method getSurf = f.getClass().getMethod("getSurface");
+			Method getPer = f.getClass().getMethod("getPerimetre");
+			Object s = getSurf.invoke(f);
+			Object p = getPer.invoke(f);
+			String info = "Forme creee : " + f.getClass().getSimpleName() +
+				" | Surface=" + s + " | Perimetre=" + p;
+			System.out.println(info);
+			AjouterForme(info);
+		}
+		catch(Exception ex)
+		{
+			String info = "Forme creee : " + f.getClass().getSimpleName();
+			System.out.println(info);
+			AjouterForme(info);
+		}
+	}
+
+	private static void creerRectangle(Map<String,String> map) throws Exception
+	{
+		double a = lireDouble(map, "A", 1.0);
+		double b = lireDouble(map, "B", 1.0);
+		Object r = instancier("Rectangle", new Class<?>[]{double.class, double.class}, new Object[]{a, b});
+		afficherCreation(r);
+	}
+
+	private static void creerCarre(Map<String,String> map) throws Exception
+	{
+		double c = lireDouble(map, "A", 1.0);
+		Object ca = instancier("Carre", new Class<?>[]{double.class}, new Object[]{c});
+		afficherCreation(ca);
+	}
+
+	private static void creerEllipse(Map<String,String> map) throws Exception
+	{
+		double ga = lireDouble(map, "A", 1.0);
+		double pa = lireDouble(map, "B", 1.0);
+		Object e = instancier("ellipse", new Class<?>[]{double.class, double.class}, new Object[]{ga, pa});
+		afficherCreation(e);
+	}
+
+	private static void creerCercle(Map<String,String> map) throws Exception
+	{
+		double r = lireDouble(map, "R", lireDouble(map, "A", 1.0));
+		Object c = instancier("cercle", new Class<?>[]{double.class}, new Object[]{r});
+		afficherCreation(c);
+	}
+
+	private static void creerLosange() throws Exception
+	{
+		Object l = instancier("Losange", new Class<?>[]{}, new Object[]{});
+		afficherCreation(l);
+	}
+
+	private static void creerTriangle(Map<String,String> map) throws Exception
+	{
+		double a = lireDouble(map, "A", 1.0);
+		double b = lireDouble(map, "B", 1.0);
+		double c = lireDouble(map, "C", -1.0);
+		double ang = lireDouble(map, "ANGLE", -1.0);
+		Object t;
+		if(c > 0)
+		{
+			t = instancier("TriangleQuelconque", new Class<?>[]{double.class, double.class, double.class}, new Object[]{a, b, c});
+		}
+		else if(ang > 0)
+		{
+			double c3 = Math.sqrt(Math.max(0.0, a*a + b*b - 2*a*b*Math.cos(Math.toRadians(ang))));
+			t = instancier("TriangleQuelconque", new Class<?>[]{double.class, double.class, double.class}, new Object[]{a, b, c3});
+		}
+		else
+		{
+			t = instancier("TriangleQuelconque", new Class<?>[]{}, new Object[]{});
+		}
+		afficherCreation(t);
+	}
+
+	private static void creerHexagone() throws Exception
+	{
+		Object h = instancier("HexagoneIrregulier", new Class<?>[]{}, new Object[]{});
+		afficherCreation(h);
+	}
+
+	private static boolean supprimerForme(Map<String,String> map)
+	{
+		int id;
+		try { id = Integer.parseInt(map.getOrDefault("ID", "-1")); } catch(Exception ex) { return false; }
+		try
+		{
+			Class<?> formeClazz = Class.forName("Forme");
+			Method getAt = formeClazz.getMethod("getFormeAt", int.class);
+			Object f = getAt.invoke(null, id);
+			if(f == null)
+			{
+				System.out.println("Aucune forme a l index : " + id);
+				return false;
+			}
+			// detruire
+			try { f.getClass().getMethod("detruire").invoke(f); } catch(Exception ignored) {}
+			// retirer de liste
+			Method retirer = formeClazz.getMethod("retirerDeListe", Object.class);
+			retirer.invoke(null, f);
+			String info = "Forme supprimee a l index : " + id;
+			System.out.println(info);
+			AjouterForme(info);
+			return true;
+		}
+		catch(Exception ex)
+		{
+			System.out.println("Impossible de supprimer la forme : " + ex.getMessage());
+			return false;
+		}
+	}
+
 	//##################################################################//    
 	// Methode pour faire une pause en ms                          		// 												
 	//##################################################################// 	
@@ -419,6 +625,47 @@ public class Serveur_Java_TCP_Socket
 		{
 			//ex.printStackTrace();
 		}
+	}
+
+	//------------------------------------------------------------------------------------------------------
+	// UI minimale : fenetre avec liste des formes et log des trames recues
+	private static void InitUI()
+	{
+		SwingUtilities.invokeLater(() -> {
+			uiFrame = new JFrame("Serveur TCP - Formes et Trames");
+			uiFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			JList<String> list = new JList<>(formesModel);
+			JScrollPane listScroll = new JScrollPane(list);
+			listScroll.setBorder(BorderFactory.createTitledBorder("Formes creees / supprimees"));
+
+			logArea.setEditable(false);
+			JScrollPane logScroll = new JScrollPane(logArea);
+			logScroll.setBorder(BorderFactory.createTitledBorder("Trames recues"));
+
+			JSplitPane split = new JSplitPane(JSplitPane.VERTICAL_SPLIT, listScroll, logScroll);
+			split.setResizeWeight(0.4);
+
+			uiFrame.getContentPane().add(split);
+			uiFrame.setSize(700, 500);
+			uiFrame.setLocationRelativeTo(null);
+			uiFrame.setVisible(true);
+		});
+	}
+
+	private static void LogTrame(String trame)
+	{
+		if(trame == null) return;
+		SwingUtilities.invokeLater(() -> {
+			logArea.append(trame + "\n");
+			logArea.setCaretPosition(logArea.getDocument().getLength());
+		});
+	}
+
+	private static void AjouterForme(String info)
+	{
+		if(info == null) return;
+		SwingUtilities.invokeLater(() -> formesModel.addElement(info));
 	}
 
 }

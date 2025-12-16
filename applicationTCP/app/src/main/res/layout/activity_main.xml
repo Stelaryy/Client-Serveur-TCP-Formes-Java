@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    tools:context=".MainActivity">
+
+    <TextView
+        android:id="@+id/labelHost"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Serveur"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/etHost"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Adresse IP ou host"
+        android:inputType="textUri"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelHost"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/etPort"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="Port (ex: 1234)"
+        android:inputType="number"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etHost"
+        android:layout_marginTop="8dp" />
+
+    <TextView
+        android:id="@+id/labelShape"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Forme"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etPort"
+        android:layout_marginTop="12dp" />
+
+    <Spinner
+        android:id="@+id/spShape"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/labelShape"
+        android:layout_marginTop="8dp" />
+
+    <EditText
+        android:id="@+id/etA"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="A (largeur / côté / rayon)"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/spShape"
+        android:layout_marginTop="12dp" />
+
+    <EditText
+        android:id="@+id/etB"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="B (hauteur pour rectangle)"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etA"
+        android:layout_marginTop="8dp" />
+
+    <Button
+        android:id="@+id/btnSend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Envoyer au serveur"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/etB"
+        android:layout_marginTop="16dp" />
+
+    <TextView
+        android:id="@+id/tvStatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="En attente..."
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnSend"
+        android:layout_marginTop="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
